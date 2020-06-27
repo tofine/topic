@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exercise.dao.TopicInfoDao">
+    <select id="getCountNewList" resultType="int">
+        select count(*) from topic_info where process=0 or process=-1
+    </select>
+
+    <select id="getNewList" resultType="com.exercise.bean.TopicInfo">
+        select *from topic_info where process=0 or process=-1 limit #{begin},#{number}
+    </select>
+
+    <delete id="deleteTopicById" parameterType="int">
+        delete from topic_info where id=#{id}
+    </delete>
+
+    <insert id="addTopic" parameterType="com.exercise.bean.TopicInfo">
+        insert into topic_info (book_name,book_classify,edition,book_nature,editor,
+        plan_contribute_time,plan_publish_time,introduction,declare_reason,process)
+        values (#{topic.bookName},#{topic.bookClassify},#{topic.edition},#{topic.bookNature},#{topic.editor},
+        #{topic.planContributeTime},#{topic.planPublishTime},#{topic.introduction},#{topic.declareReason},#{topic.process})
+    </insert>
+
+    <update id="updateTopic" parameterType="com.exercise.bean.TopicInfo">
+        update topic_info set book_name=#{bookName},book_classify=#{bookClassify},edition=#{edition},
+               book_nature=#{bookNature},editor=#{editor},plan_contribute_time=#{planContributeTime},
+               plan_publish_time=#{planPublishTime},introduction=#{introduction},declare_reason=#{declareReason}
+               where id=#{id}
+    </update>
+
+    <update id="nextProcess" parameterType="int">
+        update topic_info set process = process+1
+                        where id=#{id};
+    </update>
+
+    <update id="setReportDate">
+        update topic_info set report_time=#{date} where id=#{id}
+    </update>
+
+    <select id="getProcess" resultType="int">
+        select process from topic_info where id=#{id}
+    </select>
+
+    <update id="reverseProcess">
+        update topic_info set process = -process where id=#{id}
+    </update>
+
+    <select id="getAuditList" resultType="com.exercise.bean.TopicInfo">
+        select * from topic_info where process=1 or process=3 limit #{begin},#{number}
+    </select>
+
+    <select id="getCountAuditList" resultType="int">
+        select count(*) from topic_info where process=1 or process=3
+    </select>
+
+    <select id="getCountSurveyList" resultType="int">
+        select count(*) from topic_info where  process=2 or process=-3
+    </select>
+
+    <select id="getSurveyList" resultType="com.exercise.bean.TopicInfo">
+        select * from topic_info where  process=2 or process=-3 limit #{begin},#{number}
+    </select>
+
+    <select id="getReportList" resultType="com.exercise.bean.TopicInfo">
+        select * from topic_info where process=4 or process=5 limit #{begin},#{number}
+    </select>
+
+    <select id="getCountReportList" resultType="int">
+        select count(*) from topic_info where process=4 or process=5
+    </select>
+
+</mapper>

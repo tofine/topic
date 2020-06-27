@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎使用数字出版erp选题管理系统</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+</head>
+
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">主编界面</div>
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript;" id="username">
+                    <i class="layui-icon layui-icon-username" style="font-size: large;color: #5FB878"></i>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" id="basicInfo">基本资料</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:history.back();sessionStorage.clear();">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+
+            <ul class="layui-nav layui-nav-tree"  lay-filter="chief">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">选题审核</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" lay-href="11" class="layui-this" id="">待审列表</a></dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <div style="padding: 25px;">
+
+            <div class="layui-tab layui-tab-card" lay-allowClose="true" lay-filter="chief">
+
+                <ul class="layui-tab-title">
+                    <li class="layui-this" lay-id="11">待审列表</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table class="layui-hide" id="auditTable" lay-filter="auditTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        © erp.com
+    </div>
+
+    <script type="text/html" id="toolbarAudit">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="detail">查看详细信息</button>
+            <button class="layui-btn layui-btn-sm" lay-event="survey">市场调查信息</button>
+            <button class="layui-btn layui-btn-sm" lay-event="auditList">审核记录</button>
+        </div>
+    </script>
+
+    <script type="text/html" id="toolAudit">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="next">审核</a>
+    </script>
+
+</div>
+
+
+<!--detail表单-->
+<form class="layui-form" id="topicForm" lay-filter="topic" style="display: none;padding-top: 15px;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">选题编号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="id" disabled class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">审核阶段</label>
+            <div class="layui-input-inline">
+                <input type="text" name="process" disabled class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">书名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bookName" disabled lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">图书分类</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bookClassify" disabled lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">版次</label>
+            <div class="layui-input-inline">
+                <input type="text" name="edition" disabled lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">著作性质</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bookNature" disabled lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">计划发稿时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="planContributeTime" disabled id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">计划出版时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="planPublishTime" disabled id="date2" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-block">
+            <label class="layui-form-label">内容简介</label>
+            <div class="layui-input-inline">
+                <textarea class="layui-textarea" disabled name="introduction" style="width: 190px"></textarea>
+            </div>
+        </div>
+        <div class="layui-block">
+            <label class="layui-form-label" style="padding-left:25px;">申报理由</label>
+            <div class="layui-input-inline" >
+                <textarea class="layui-textarea" disabled name="declareReason" style="width: 190px"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">责任编辑</label>
+            <div class="layui-input-inline">
+                <input type="text" name="editor" lay-verify="required" disabled autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">申报时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="reportTime" lay-verify="date" disabled autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<form class="layui-form" id="auditForm" lay-filter="audit" style="display: none;padding-top: 15px;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">选题编号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="topicId" disabled class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">审核阶段</label>
+            <div class="layui-input-inline">
+                <input type="text" name="status" disabled class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核结论</label>
+        <div class="layui-input-block">
+            <input type="radio" name="result" value="1" title="通过" checked>
+            <input type="radio" name="result" value="0" title="不通过">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-block">
+            <label class="layui-form-label">审核意见</label>
+            <div class="layui-input-inline">
+                <textarea class="layui-textarea" name="opinion"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">审核人</label>
+            <div class="layui-input-inline">
+                <input type="text" name="auditor" lay-verify="required" disabled autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">审核时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="date" lay-verify="auditDate" disabled autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <button type="submit" id="auditSubmit" class="layui-btn" lay-submit lay-filter="auditSubmit">确定</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+<form class="layui-form" id="lookSurvey" lay-id="lookSurvey" lay-filter="lookSurvey" style="display: none;padding-top: 15px;padding-right: 25px">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">选题编号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="topicId" name="topicId" disabled class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">调查人</label>
+        <div class="layui-input-inline">
+            <input type="text" name="investigator" disabled class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">完成时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="surveyTime" disabled id="date6" lay-verify="date" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" id="down" lay-id="down" class="layui-btn" lay-submit lay-filter="down"><i class="layui-icon layui-icon-download-circle"></i> 下载附件</button>
+        </div>
+    </div>
+</form>
+
+<form class="layui-form layui-inline" lay-filter="basic" id="basic"
+      style="padding-top: 15px;padding-right: 40px;display: none;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">员工id</label>
+        <div class="layui-input-block">
+            <input type="text" name="id" class="layui-input" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" disabled name="name" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" disabled name="gender" value="1" title="男">
+            <input type="radio" disabled name="gender" value="0" title="女">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone" disabled lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">职位</label>
+        <div class="layui-input-block">
+            <select name="role" disabled lay-verify="required">
+                <option value="1">编辑</option>
+                <option value="2">主编</option>
+                <option value="3">编辑室工作人员</option>
+            </select>
+        </div>
+    </div>
+</form>
+<div style="display: none" id="div">
+    <table class="layui-hide" style="display: none" id="auditList"></table>
+</div>
+
+<script src="../static/layui/layui.js"></script>
+<script src="../static/js/chief.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+<form class="layui-form layui-inline">
+
+    <div class="layui-form-item" style="margin-top: 12px;margin-right: 45px">
+
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="id" lay-verify="name" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" lay-verify="password" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="login">登录</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="static/layui/layui.js" charset="utf-8"></script>
+<script src="static/js/index.js" charset="utf-8"></script>
+
+</body>
+</html>
